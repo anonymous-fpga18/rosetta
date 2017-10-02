@@ -150,13 +150,13 @@ void SgdLR( VectorDataType    data[NUM_FEATURES * NUM_TRAINING / D_VECTOR_SIZE],
   #pragma HLS array_partition variable=training_instance cyclic factor=UNROLL_FACTOR
 
   // initialize local parameters
-  PARAM_INIT: for (int i = 0; i < NUM_FEATURES / F_VECTOR_SIZE; i ++ )
+  /*PARAM_INIT: for (int i = 0; i < NUM_FEATURES / F_VECTOR_SIZE; i ++ )
   {
     #pragma HLS pipeline
     VectorFeatureType tmp_theta = theta[i];
     PARAM_INIT_INNER: for (int j = 0; j < F_VECTOR_SIZE; j ++ )
       theta_local[i * F_VECTOR_SIZE + j].range(FTYPE_TWIDTH-1, 0) = tmp_theta.range((j+1)*FTYPE_TWIDTH-1, j*FTYPE_TWIDTH);
-  }
+  }*/
 
   // copy in labels
   LABEL_CP: for (int i = 0; i < NUM_TRAINING / L_VECTOR_SIZE; i ++ )

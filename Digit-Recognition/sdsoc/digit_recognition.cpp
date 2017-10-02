@@ -17,7 +17,6 @@
 #include <sys/time.h>
 
 // other headers
-#include "utils.h"
 #include "typedefs.h"
 #include "check_result.h"
 #include "digitrec.h"

@@ -48,7 +48,33 @@
 template <class T1, class T2>
 void ScaleAndOffsetLine(T1* src, T2* dst, int n,
                         float scale, float offset,
-                        T2 minVal, T2 maxVal);
+                        T2 minVal, T2 maxVal)
+{
+    // This routine does NOT round values when converting from float to int
+    const bool scaleOffset = (scale != 1.0f) || (offset != 0.0f);
+    const bool clip = (minVal < maxVal);
+
+    if (scaleOffset)
+        for (int i = 0; i < n; i++)
+        {
+            float val = src[i] * scale + offset;
+            if (clip)
+                val = __min(__max(val, minVal), maxVal);
+            dst[i] = (T2) val;
+        }
+    else if (clip)
+        for (int i = 0; i < n; i++)
+        {
+            dst[i] = (T2) __min(__max(src[i], minVal), maxVal);
+        }
+    else if (typeid(T1) == typeid(T2))
+        memcpy(dst, src, n*sizeof(T2));
+    else
+        for (int i = 0; i < n; i++)
+        {
+            dst[i] = (T2) src[i];
+        }
+}
 
 template <class T1, class T2>
 void ScaleAndOffset(CImageOf<T1>& src, CImageOf<T2>& dst,

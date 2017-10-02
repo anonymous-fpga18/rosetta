@@ -21,8 +21,9 @@ PLATFORM = zc706
 # sds++ flags
 SDSFLAGS = -sds-pf $(PLATFORM) -sds-hw DigitRec digitrec.cpp -sds-end -clkid 3  \
 	   -poll-mode 1 
-SDSFLAGS += -Wall -O3 -c
-SDSFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
+SDSCFLAGS = -Wall -O3 -c
+SDSCFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
+SDSLFLAGS = -O3
 
 # sw compilation flags
 CFLAGS = -DSW_EMU -I$(XILINX_SDX)/Vivado_HLS/include
@@ -37,12 +38,12 @@ DEPS := $(OBJECTS:.o=.d)
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(SDSXX) $(SDSFLAGS) ${OBJECTS} -o $@ 
+	$(SDSXX) $(SDSFLAGS) $(SDSLFLAGS) ${OBJECTS} -o $@ 
 
 -include $(DEPS)
 
 %.o: %.cpp
-	$(SDSXX) $(SDSFLAGS) $< -o $@
+	$(SDSXX) $(SDSFLAGS) $(SDSCFLAGS) $< -o $@
 
 sw:
 	g++ -O1 $(CFLAGS) $(LFLAGS) $(APPSOURCES) -o $(SW_EXE)

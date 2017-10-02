@@ -22,7 +22,7 @@
 // Type conversion utilities
 //
 
-template <class T1, class T2>
+/*template <class T1, class T2>
 extern void ScaleAndOffsetLine(T1* src, T2* dst, int n,
                         float scale, float offset,
                         T2 minVal, T2 maxVal)
@@ -51,7 +51,7 @@ extern void ScaleAndOffsetLine(T1* src, T2* dst, int n,
         {
             dst[i] = (T2) src[i];
         }
-}
+}*/
 
 template <class T1, class T2>
 extern void ScaleAndOffset(CImageOf<T1>& src, CImageOf<T2>& dst, float scale, float offset)
